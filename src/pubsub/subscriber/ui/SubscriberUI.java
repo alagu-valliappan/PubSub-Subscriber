@@ -46,6 +46,7 @@ public class SubscriberUI extends javax.swing.JFrame {
             toRegister.setVisible(true);
             registered.setVisible(false);
         }
+        
     }
 
     /**
@@ -81,9 +82,8 @@ public class SubscriberUI extends javax.swing.JFrame {
         subscribedTopicsList = new javax.swing.JList();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jList3 = new javax.swing.JList();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        msgList = new javax.swing.JList();
+        deleteMsg = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -275,31 +275,29 @@ public class SubscriberUI extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Subscribe", jPanel3);
 
-        jList3.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
+        msgList.setModel(messageListModel);
+        jScrollPane3.setViewportView(msgList);
+
+        deleteMsg.setText("Delete Message");
+        deleteMsg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteMsgActionPerformed(evt);
+            }
         });
-        jScrollPane3.setViewportView(jList3);
-
-        jButton3.setText("Read Message");
-
-        jButton4.setText("Delete Message");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(158, 158, 158)
+                        .addComponent(deleteMsg)))
                 .addContainerGap(17, Short.MAX_VALUE))
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3)
-                .addGap(44, 44, 44)
-                .addComponent(jButton4)
-                .addGap(82, 82, 82))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -307,9 +305,7 @@ public class SubscriberUI extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton3))
+                .addComponent(deleteMsg)
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
@@ -355,6 +351,7 @@ public class SubscriberUI extends javax.swing.JFrame {
                 }
             }
         }
+        onRefreshActionPerformed(null);
     }//GEN-LAST:event_viaEmailActionPerformed
 
     private void viaIPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viaIPActionPerformed
@@ -372,6 +369,7 @@ public class SubscriberUI extends javax.swing.JFrame {
                 }
             }
         }
+        onRefreshActionPerformed(null);
     }//GEN-LAST:event_viaIPActionPerformed
 
     private void onRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onRefreshActionPerformed
@@ -400,14 +398,6 @@ public class SubscriberUI extends javax.swing.JFrame {
                 subscribedTopicsListModel.addElement(subscribedTopics.get(i));
                 System.out.println("subscribedTopicslistModel(i): " + subscribedTopicsListModel.get(i));
             }
-            //allTopicsList = new JList(listModel);
-            //for(int i=0;i<allTopicsList.getModel().getSize();i++){
-            //    System.out.println(allTopicsList.getModel().getElementAt(i));
-            //}
-            //allTopicsList.setVisible(false); allTopicsList.setVisible(true);
-            
-          //allTopicsList.repaint(allTopicsList.getBounds());
-            //allTopicsList.validate();
         }
     }//GEN-LAST:event_onRefreshActionPerformed
 
@@ -441,6 +431,14 @@ public class SubscriberUI extends javax.swing.JFrame {
             
         }
     }//GEN-LAST:event_onUnSubscribeActionPerformed
+
+    private void deleteMsgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteMsgActionPerformed
+        System.out.println("deleteMessage outsideloop");
+        if(msgList.getSelectedValue()!=null){
+            System.out.println(msgList.getSelectedValue());
+            messageListModel.removeElement(msgList.getSelectedValue());
+        }
+    }//GEN-LAST:event_deleteMsgActionPerformed
 
     /**
      * @param args the command line arguments
@@ -479,16 +477,14 @@ public class SubscriberUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList allTopicsList;
+    private javax.swing.JButton deleteMsg;
     private javax.swing.JTextField email;
     private javax.swing.JTextField ip;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JList jList3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -497,6 +493,7 @@ public class SubscriberUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JList msgList;
     private javax.swing.JButton onRefresh;
     private javax.swing.JButton onSubscribe;
     private javax.swing.JButton onUnSubscribe;
@@ -516,4 +513,5 @@ public class SubscriberUI extends javax.swing.JFrame {
     public String regMode = null;
     public String host = null;
     public static String hostAddrIP = null;
+    public static DefaultListModel<String> messageListModel = new DefaultListModel<String>();
 }

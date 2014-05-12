@@ -42,6 +42,9 @@ public class ServerDataHandler extends SimpleChannelInboundHandler<NetworkMessag
         str.append("\n");
         str.append(msg.getMessage());
         JOptionPane.showMessageDialog(null,str);
+        
+        SubscriberUI.messageListModel.addElement("Topic: " + msg.getTitle() + "\n" + msg.getMessage());
+        
     }
     
     @Override
