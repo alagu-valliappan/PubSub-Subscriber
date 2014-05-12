@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import pubsub.message.NetworkMessage;
 import pubsub.subscriber.ui.SubscriberUI;
 
@@ -35,7 +36,12 @@ public class ServerDataHandler extends SimpleChannelInboundHandler<NetworkMessag
     @Override
     protected void channelRead0(ChannelHandlerContext chc, NetworkMessage.Messages msg) throws Exception {
         //Handle the broker-to-subscriber response
-        
+        System.err.println("msg received");
+        StringBuilder str = new StringBuilder();
+        str.append("New Post from Topic "+msg.getTitle());
+        str.append("\n");
+        str.append(msg.getMessage());
+        JOptionPane.showMessageDialog(null,str);
     }
     
     @Override
