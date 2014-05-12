@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package pubsub.subscriber.ui;
 
+import java.net.InetAddress;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import pubsub.subscriber.PubSubSubscriber;
+import pubsub.subscriber.server.Server;
 
 /**
  *
@@ -20,6 +21,13 @@ public class SubscriberMain extends javax.swing.JFrame {
      * Creates new form ConnectToBroker
      */
     public SubscriberMain() {
+        try {
+            int port = 8085;
+            System.out.println("Starting Subscriber Server at port " + InetAddress.getLocalHost().getHostAddress() + ":" + port);
+            new Thread(new Server(port)).start();
+        } catch (Exception ex) {
+            Logger.getLogger(PubSubSubscriber.class.getName()).log(Level.SEVERE, null, ex);
+        }
         initComponents();
     }
 
@@ -85,14 +93,14 @@ public class SubscriberMain extends javax.swing.JFrame {
             subscriber.broker.connect();
             System.out.println("Connected");
             subscriber.isBrokerAvailable = true;
-            
+
             /* Display the subscriber window */
             this.setVisible(false);
             java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-            SubscriberUI sub = new SubscriberUI(subscriber);
-            /* Set the Nimbus look and feel */
-            //editor-fold
+                public void run() {
+                    SubscriberUI sub = new SubscriberUI(subscriber);
+                    /* Set the Nimbus look and feel */
+                    //editor-fold
                     //look & feel
                     try {
                         for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -115,8 +123,8 @@ public class SubscriberMain extends javax.swing.JFrame {
                     sub.setVisible(true);
                 }
             });
- 
-        }catch (Exception ex) {
+
+        } catch (Exception ex) {
             subscriber.isBrokerAvailable = false;
             Logger.getLogger(PubSubSubscriber.class.getName()).log(Level.SEVERE, null, ex);
         }
