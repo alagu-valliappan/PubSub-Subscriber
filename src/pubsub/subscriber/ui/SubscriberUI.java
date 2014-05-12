@@ -10,6 +10,8 @@ import static java.lang.Thread.sleep;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -393,6 +395,10 @@ public class SubscriberUI extends javax.swing.JFrame {
             }
             
             subscribedTopicsListModel.clear();
+            Set<String> subList = new HashSet<String>();
+            subList.addAll(subscribedTopics);
+            subscribedTopics.removeAll(subscribedTopics);
+            subscribedTopics.addAll(subList);
             for(int i=0;i<subscribedTopics.size();i++){
                 
                 subscribedTopicsListModel.addElement(subscribedTopics.get(i));
